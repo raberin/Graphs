@@ -56,7 +56,7 @@ class Graph:
             # if not visited
             if vertex not in visited:
                 # Do the thing!!
-                print('vertex', vertex)
+                print(vertex)
                 # Mark as visited
                 visited.add(vertex)
                 # enqueue all neighbors
@@ -86,7 +86,7 @@ class Graph:
             # if not visited
             if vertex not in visited:
                 # Do what you wanted to do
-                print('vertex', vertex)
+                print(vertex)
                 # Mark as visited
                 visited.add(vertex)
                 # push neighbors of current vertex into top of stack
@@ -107,7 +107,7 @@ class Graph:
         """
         # Base Case
         if vertex not in visited:
-            print('vertex', vertex)
+            print(vertex)
             visited.add(vertex)
 
             neighbors = self.get_neighbors(vertex)
@@ -192,24 +192,25 @@ class Graph:
         This should be done using recursion.
         """
         # Base Case
-        # Check if starting_vertex is visited
+        # Check if starting_vertex is not visited
         if starting_vertex not in visited:
-            if starting_vertex == destination_vertex:
-                return path
-            # If not...
+            # Add vertex to current path
+            new_path = path + [starting_vertex]
+            # Mark as visited
             visited.add(starting_vertex)
-            new_path = list(path)
-            new_path.append(starting_vertex)
             # If starting_vertex is destination...
-
-            # Mark it as visited
-            # Call DFS on each neighbor
+            if starting_vertex == destination_vertex:
+                return new_path
+            # Call DFS on each neighbor ONLY if it hasnt been visited
             neighbors = self.get_neighbors(starting_vertex)
             for neighbor in neighbors:
-                new_path = list(path)
-                self.dfs_recursive(neighbor, destination_vertex, visited, path)
-                if new_path is not None:
-                    return new_path
+                # If neighbor is not in visited
+                if neighbor not in visited:
+                    recurse = self.dfs_recursive(
+                        neighbor, destination_vertex, visited, new_path)
+                    # Only return if recurse isn't None
+                    if recurse is not None:
+                        return recurse
 
 
 if __name__ == '__main__':
